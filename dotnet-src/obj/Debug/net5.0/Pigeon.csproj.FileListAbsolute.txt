@@ -1,0 +1,13 @@
+/media/arrank/HDD/Code/Git Repos/Pigeon/bin/Debug/net5.0/Pigeon
+/media/arrank/HDD/Code/Git Repos/Pigeon/bin/Debug/net5.0/Pigeon.deps.json
+/media/arrank/HDD/Code/Git Repos/Pigeon/bin/Debug/net5.0/Pigeon.runtimeconfig.json
+/media/arrank/HDD/Code/Git Repos/Pigeon/bin/Debug/net5.0/Pigeon.runtimeconfig.dev.json
+/media/arrank/HDD/Code/Git Repos/Pigeon/bin/Debug/net5.0/Pigeon.dll
+/media/arrank/HDD/Code/Git Repos/Pigeon/bin/Debug/net5.0/Pigeon.pdb
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.csprojAssemblyReference.cache
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.AssemblyInfoInputs.cache
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.AssemblyInfo.cs
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.csproj.CoreCompileInputs.cache
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.dll
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.pdb
+/media/arrank/HDD/Code/Git Repos/Pigeon/obj/Debug/net5.0/Pigeon.genruntimeconfig.cache
