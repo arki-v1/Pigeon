@@ -15,16 +15,16 @@ namespace Pigeon
             {
                 Console.WriteLine("NO ARGUMENTS GIVEN - USE -h FOR HELP");
             }
-            else if(args [0] == "-h")
+            else if(args [0] == "help")
             {
                 Console.WriteLine("PIGEON FILE TRANSFER VERSION 0");
                 Console.WriteLine("------------------------------");
-                Console.WriteLine("-h = help");
-                Console.WriteLine("-s = Send");
-                Console.WriteLine("-r = receive");
+                Console.WriteLine("help =  show help box");
+                Console.WriteLine("send = sends a file from your computer to another ip address");
+                Console.WriteLine("get = gets a file from remote ip address");
                 Console.WriteLine("------------------------------");
             }
-            else if(args[0] == "-s")
+            else if(args[0] == "send")
             {
                 try
                 {
@@ -44,6 +44,10 @@ namespace Pigeon
                     port = int.Parse(Console.ReadLine());
                     settings[1] = port.ToString();
                 }
+            }
+            else if(args[0] == "get")
+            {
+
             }
         }
     }
