@@ -1,15 +1,15 @@
 {
   "format": 1,
   "restore": {
-    "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/Pigeon.csproj": {}
+    "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj": {}
   },
   "projects": {
-    "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/Pigeon.csproj": {
+    "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/Pigeon.csproj",
-        "projectName": "Pigeon",
-        "projectPath": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/Pigeon.csproj",
+        "projectUniqueName": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj",
+        "projectName": "pigeon",
+        "projectPath": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj",
         "packagesPath": "/home/arrank/.nuget/packages/",
         "outputPath": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/",
         "projectStyle": "PackageReference",

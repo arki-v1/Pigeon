@@ -1,0 +1,13 @@
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/bin/Debug/net5.0/pigeon
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/bin/Debug/net5.0/pigeon.deps.json
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/bin/Debug/net5.0/pigeon.runtimeconfig.json
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/bin/Debug/net5.0/pigeon.runtimeconfig.dev.json
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/bin/Debug/net5.0/pigeon.dll
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/bin/Debug/net5.0/pigeon.pdb
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.csprojAssemblyReference.cache
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.AssemblyInfoInputs.cache
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.AssemblyInfo.cs
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.csproj.CoreCompileInputs.cache
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.dll
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.pdb
+/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/Debug/net5.0/pigeon.genruntimeconfig.cache
