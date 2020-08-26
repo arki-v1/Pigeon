@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Net;
+using System.Net.Sockets;
 
 namespace Pigeon
 {
@@ -8,10 +10,11 @@ namespace Pigeon
     {
         static void Main(string[] args)
         {
-            string gateway;
+            string address;
             int port;
             string faddress;
             string[] settings;
+            byte[] fdata;
             if(args.Length == 0)
             {
                 Console.WriteLine("NO ARGUMENTS GIVEN - USE help FOR HELP");
@@ -30,32 +33,53 @@ namespace Pigeon
             }
             else if(args[0] == "send")
             {
-                try
+                if(args.Length < 4)
                 {
-                    settings = File.ReadAllLines("settings");
-                    Console.WriteLine("SETTINGS FILE FOUND, APPLYING SETTINGS");
-                    gateway = settings[0];
-                    port = int.Parse(settings[1]);
-                }
-                catch
-                {
-                    settings = new string[2];
-                    Console.WriteLine("FIRST TIME SETUP");
-                    Console.WriteLine("Please enter the gateway ip:");
-                    gateway = Console.ReadLine();
-                    settings[0] = gateway;
-                    Console.WriteLine("Please enter the port ip:");
-                    port = int.Parse(Console.ReadLine());
-                    settings[1] = port.ToString();
+                    try
+                    {
+                        settings = File.ReadAllLines("settings");
+                        Console.WriteLine("SETTINGS FILE FOUND, APPLYING SETTINGS");
+                        address = settings[0];
+                        if(args.Length < 3)
+                        {
+                            port = int.Parse(settings[1]);
+                        }
+                        else
+                        {
+                            port = int.Parse(args[2]);
+                        }
+                    }
+                    catch
+                    {
+                        settings = new string[2];
+                        Console.WriteLine("FIRST TIME SETUP");
+                        Console.WriteLine("Please enter the address ip:");
+                        address = Console.ReadLine();
+                        settings[0] = address;
+                        if(args.Length < 3)
+                        {
+                            Console.WriteLine("Please enter the port ip:");
+                            port = int.Parse(Console.ReadLine());
+                            settings[1] = port.ToString();
+                        }
+                        else
+                        {
+                            port = int.Parse(args[2]);
+                        }
+                    }
+                    faddress = args[1];
+                    fdata = File.ReadAllBytes(@faddress);
+                    send(IPAddress.Parse(address), port, fdata);
                 }
             }
             else if(args[0] == "get")
             {
                 if(args.Length == 4)
                 {
-                    gateway = args[1];
+                    address = args[1];
                     port = int.Parse(args[2]);
                     faddress = args[3];
+                    get(address, port, faddress);
                 }
                 else
                 {
@@ -63,6 +87,15 @@ namespace Pigeon
                     return;
                 }
             }
+        }
+        static void send(IPAddress address, int port, byte[] data)
+        {
+            byte[] buffer;
+
+        }
+        static void get(string address, int port, string faddress)
+        {
+
         }
     }
 }

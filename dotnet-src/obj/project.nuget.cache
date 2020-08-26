@@ -1,8 +1,11 @@
 {
   "version": 2,
-  "dgSpecHash": "Cw2fo0Hq8TCQB1abrkFIrRvdWttYLRuxYr+zEvCQgA5++qbGUGU25huKGPOpE3xFpEFHSlKEMFTNZ5g24ip/yA==",
+  "dgSpecHash": "GU/P+wBhbjuWZO15xDexZUtlXgshwEMq95ctD4CAtLTx0JePnagWKG7jNFWAbZPEAh1PWWZ7ZIyxvqu5zP14iw==",
   "success": true,
-  "projectFilePath": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "/Users/arrankirk/Github Repos/Pigeon/dotnet-src/pigeon.csproj",
+  "expectedPackageFiles": [
+    "/Users/arrankirk/.nuget/packages/microsoft.netcore.app.runtime.osx-x64/5.0.0-preview.7.20364.11/microsoft.netcore.app.runtime.osx-x64.5.0.0-preview.7.20364.11.nupkg.sha512",
+    "/Users/arrankirk/.nuget/packages/microsoft.aspnetcore.app.runtime.osx-x64/5.0.0-preview.7.20365.19/microsoft.aspnetcore.app.runtime.osx-x64.5.0.0-preview.7.20365.19.nupkg.sha512"
+  ],
   "logs": []
 }
