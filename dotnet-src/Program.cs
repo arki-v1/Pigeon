@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
@@ -91,11 +90,57 @@ namespace Pigeon
         static void send(IPAddress address, int port, byte[] data)
         {
             byte[] buffer;
-
+            TcpClient client;
+            TcpListener listener = new TcpListener(address, port);
+            client = listener.AcceptTcpClient();
+            NetworkStream nstream = client.GetStream();
+            buffer = new byte[sizeof(long)];
+            long fsize = data.Length;
+            buffer = BitConverter.GetBytes(fsize);
+            nstream.Write(buffer, 0, buffer.Length);
+            buffer = new byte[client.SendBufferSize];
         }
         static void get(string address, int port, string faddress)
         {
-
+            byte[] fdata;
+            byte[] buffer;
+            TcpClient client = new TcpClient(address, port);
+            NetworkStream nstream = client.GetStream();
+            buffer = new byte[sizeof(long)];
+            long fsize;
+            nstream.Read(buffer, 0, buffer.Length);
+            fsize = BitConverter.ToInt64(buffer);
+            fdata = new byte[fsize];
+            buffer = null;
+            for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
+            {
+                long startpoint = 0;
+                if((fsize % client.ReceiveBufferSize) - i > 1)
+                {
+                    buffer = new byte[client.ReceiveBufferSize];
+                    nstream.Read(buffer, 0, buffer.Length);
+                    startpoint = i * client.ReceiveBufferSize;
+                    for(long j = startpoint, x = 0; j < startpoint + client.ReceiveBufferSize; j++, x++ )
+                    {
+                        fdata[j] = buffer[x];
+                    }
+                }
+                else
+                {
+                    buffer = new byte[fsize - (client.ReceiveBufferSize * i)];
+                    nstream.Read(buffer, 0, buffer.Length);
+                    startpoint = i * client.ReceiveBufferSize;
+                    for(long j = startpoint, x = 0; j < fsize; j++, x++ )
+                    {
+                        fdata[j] = buffer[x];
+                    }
+                }
+                buffer = null;
+            }
+            File.WriteAllBytes(@faddress, fdata);
+            fdata = null;
+            nstream.Close();
+            client.Close();
         }
     }
 }
