@@ -8,6 +8,8 @@ namespace Pigeon
 {
     class Program
     {
+        static byte[] fdata;
+        static long data;
         static void Main(string[] args)
         {
             Thread dltracker = new Thread(new ThreadStart(dlproc));
@@ -15,7 +17,6 @@ namespace Pigeon
             int port;
             string faddress;
             string[] settings;
-            byte[] fdata;
             if(args.Length == 0)
             {
                 Console.WriteLine("NO ARGUMENTS GIVEN - USE help FOR HELP");
@@ -103,25 +104,23 @@ namespace Pigeon
             buffer = new byte[client.SendBufferSize];
             for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
             {
-                long startpoint = 0;
+                data = 0;
                 if((fsize % client.ReceiveBufferSize) - i > 1)
                 {
                     buffer = new byte[client.ReceiveBufferSize];
                     nstream.Write(buffer, 0, buffer.Length);
-                    startpoint = i * client.ReceiveBufferSize;
-                    for(long j = startpoint, x = 0; j < startpoint + client.ReceiveBufferSize; j++, x++ )
+                    for(int x = 0; x < client.ReceiveBufferSize; data++, x++ )
                     {
-                        fdata[j] = buffer[x];
+                        fdata[data] = buffer[x];
                     }
                 }
                 else
                 {
                     buffer = new byte[fsize - (client.ReceiveBufferSize * i)];
                     nstream.Write(buffer, 0, buffer.Length);
-                    startpoint = i * client.ReceiveBufferSize;
-                    for(long j = startpoint, x = 0; j < fsize; j++, x++ )
+                    for(int x = 0; x < fsize - (client.ReceiveBufferSize * i); data++, x++ )
                     {
-                        fdata[j] = buffer[x];
+                        fdata[data] = buffer[x];
                     }
                 }
             }
@@ -132,7 +131,6 @@ namespace Pigeon
         }
         static void get(string address, int port, string faddress, Thread dltracker)
         {
-            byte[] fdata;
             byte[] buffer;
             TcpClient client = new TcpClient(address, port);
             NetworkStream nstream = client.GetStream();
@@ -144,28 +142,25 @@ namespace Pigeon
             buffer = null;
             for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
             {
-                long startpoint = 0;
+                data = 0;
                 if((fsize % client.ReceiveBufferSize) - i > 1)
                 {
                     buffer = new byte[client.ReceiveBufferSize];
                     nstream.Read(buffer, 0, buffer.Length);
-                    startpoint = i * client.ReceiveBufferSize;
-                    for(long j = startpoint, x = 0; j < startpoint + client.ReceiveBufferSize; j++, x++ )
+                    for(int x = 0; x < client.ReceiveBufferSize; data++, x++ )
                     {
-                        fdata[j] = buffer[x];
+                        fdata[data] = buffer[x];
                     }
                 }
                 else
                 {
                     buffer = new byte[fsize - (client.ReceiveBufferSize * i)];
                     nstream.Read(buffer, 0, buffer.Length);
-                    startpoint = i * client.ReceiveBufferSize;
-                    for(long j = startpoint, x = 0; j < fsize; j++, x++ )
+                    for(int x = 0; x < fsize - (client.ReceiveBufferSize * i); data++, x++ )
                     {
-                        fdata[j] = buffer[x];
+                        fdata[data] = buffer[x];
                     }
                 }
-                buffer = null;
             }
             File.WriteAllBytes(@faddress, fdata);
             fdata = null;
