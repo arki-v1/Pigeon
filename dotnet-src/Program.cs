@@ -102,26 +102,27 @@ namespace Pigeon
             buffer = BitConverter.GetBytes(fsize);
             nstream.Write(buffer, 0, buffer.Length);
             buffer = new byte[client.SendBufferSize];
+            data = 0;
+            dltracker.Start();
             for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
             {
-                data = 0;
                 if((fsize % client.ReceiveBufferSize) - i > 1)
                 {
                     buffer = new byte[client.ReceiveBufferSize];
                     nstream.Write(buffer, 0, buffer.Length);
                     for(int x = 0; x < client.ReceiveBufferSize; data++, x++ )
                     {
-                        fdata[data] = buffer[x];
+                        buffer[x] = fdata[data];
                     }
                 }
                 else
                 {
                     buffer = new byte[fsize - (client.ReceiveBufferSize * i)];
-                    nstream.Write(buffer, 0, buffer.Length);
                     for(int x = 0; x < fsize - (client.ReceiveBufferSize * i); data++, x++ )
                     {
-                        fdata[data] = buffer[x];
+                        buffer[x] = fdata[data];
                     }
+                    nstream.Write(buffer, 0, buffer.Length);
                 }
             }
             fdata = null;
@@ -140,9 +141,10 @@ namespace Pigeon
             fsize = BitConverter.ToInt64(buffer);
             fdata = new byte[fsize];
             buffer = null;
+            data = 0;
+            dltracker.Start();
             for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
             {
-                data = 0;
                 if((fsize % client.ReceiveBufferSize) - i > 1)
                 {
                     buffer = new byte[client.ReceiveBufferSize];
@@ -169,7 +171,12 @@ namespace Pigeon
         }
         static void dlproc()
         {
-
+            while(data < fdata.Length)
+            {
+                double percent = (data / fdata.Length) * 100;
+                Console.WriteLine(Math.Round(percent).ToString(), "    ", data, " / ", fdata.Length);
+                Thread.Sleep(100);
+            }
         }
     }
 }
