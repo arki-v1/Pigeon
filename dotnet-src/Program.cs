@@ -8,14 +8,12 @@ namespace Pigeon
 {
     class Program
     {
-        static byte[] fdata;
-        static long data;
         static void Main(string[] args)
         {
-            Thread dltracker = new Thread(new ThreadStart(dlproc));
             string address;
             int port;
             string faddress;
+            byte[] fdata;
             string[] settings;
             if(args.Length == 0)
             {
@@ -68,10 +66,11 @@ namespace Pigeon
                         {
                             port = int.Parse(args[2]);
                         }
+                        File.WriteAllLines("settings", settings);
                     }
                     faddress = args[1];
                     fdata = File.ReadAllBytes(@faddress);
-                    send(IPAddress.Parse(address), port, fdata, dltracker);
+                    send(IPAddress.Parse(address), port, fdata);
                 }
             }
             else if(args[0] == "get")
@@ -81,7 +80,7 @@ namespace Pigeon
                     address = args[1];
                     port = int.Parse(args[2]);
                     faddress = args[3];
-                    get(address, port, faddress, dltracker);
+                    get(address, port, faddress);
                 }
                 else
                 {
@@ -90,93 +89,151 @@ namespace Pigeon
                 }
             }
         }
-        static void send(IPAddress address, int port, byte[] fdata, Thread dltracker)
+        static void send(IPAddress address, int port, byte[] fdata)
         {
             byte[] buffer;
             TcpClient client;
             TcpListener listener = new TcpListener(address, port);
+            listener.Start();
+            Console.WriteLine("Started listening for connections...");
             client = listener.AcceptTcpClient();
             NetworkStream nstream = client.GetStream();
+            Console.WriteLine("Connected");
             buffer = new byte[sizeof(long)];
             long fsize = fdata.Length;
             buffer = BitConverter.GetBytes(fsize);
             nstream.Write(buffer, 0, buffer.Length);
-            buffer = new byte[client.SendBufferSize];
-            data = 0;
-            dltracker.Start();
-            for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
+            buffer = null;
+            long data = 0;
+            Console.WriteLine("Starting upload");
+            int packets = 0;
+            while(fsize > data)
             {
-                if((fsize % client.ReceiveBufferSize) - i > 1)
+                Console.WriteLine("Uploading...");
+                if(((fsize / client.ReceiveBufferSize) - packets) > 1)
                 {
-                    buffer = new byte[client.ReceiveBufferSize];
-                    nstream.Write(buffer, 0, buffer.Length);
-                    for(int x = 0; x < client.ReceiveBufferSize; data++, x++ )
+                    buffer = new byte[client.SendBufferSize];
+                    for(int x = 0; x < buffer.Length; data++, x++ )
                     {
-                        buffer[x] = fdata[data];
+                        try
+                        {
+                            buffer[x] = fdata[data];
+                        }
+                        catch(IndexOutOfRangeException)
+                        {
+                            Console.WriteLine("Problem at {0}, {1}. Error 3. Buffer.length = {2}, fdata.Length = {3}", data, x, buffer.Length, fdata.Length);
+                            break;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                            break;
+                        }
                     }
+                    nstream.Write(buffer, 0, buffer.Length);
+                    Console.WriteLine("Data uploaded");
                 }
                 else
                 {
-                    buffer = new byte[fsize - (client.ReceiveBufferSize * i)];
-                    for(int x = 0; x < fsize - (client.ReceiveBufferSize * i); data++, x++ )
+                    buffer = new byte[fsize - data];
+                    for(int x = 0; x < buffer.Length; data++, x++ )
                     {
-                        buffer[x] = fdata[data];
+                        try
+                        {
+                            buffer[x] = fdata[data];
+                        }
+                        catch(IndexOutOfRangeException)
+                        {
+                            Console.WriteLine("Problem at {0}, {1}. Error 4. Buffer.length = {2}, fdata.Length = {3}", data, x, buffer.Length, fdata.Length);
+                            break;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                            break;
+                        }
                     }
                     nstream.Write(buffer, 0, buffer.Length);
                 }
+                Console.WriteLine("{0}%, {1}/{2}", Math.Round(100 * (double)(data / fdata.Length)), data, fdata.Length);
+                packets++;
             }
             fdata = null;
             nstream.Close();
             client.Close();
             listener.Stop();
         }
-        static void get(string address, int port, string faddress, Thread dltracker)
+        static void get(string address, int port, string faddress)
         {
             byte[] buffer;
+            Console.WriteLine("Waiting for connection...");
             TcpClient client = new TcpClient(address, port);
             NetworkStream nstream = client.GetStream();
+            Console.WriteLine("Connected");
             buffer = new byte[sizeof(long)];
             long fsize;
             nstream.Read(buffer, 0, buffer.Length);
             fsize = BitConverter.ToInt64(buffer);
-            fdata = new byte[fsize];
+            byte[] fdata = new byte[fsize];
+            Console.WriteLine(fdata.Length);
             buffer = null;
-            data = 0;
-            dltracker.Start();
-            for(int i = 0; i < fsize % client.ReceiveBufferSize; i++)
+            long data = 0;
+            Console.WriteLine("Starting download");
+            int packets = 0;
+            while(fsize > data)
             {
-                if((fsize % client.ReceiveBufferSize) - i > 1)
+                Console.WriteLine("Downloading...");
+                if(((fsize / client.ReceiveBufferSize) - packets) > 1)
                 {
                     buffer = new byte[client.ReceiveBufferSize];
                     nstream.Read(buffer, 0, buffer.Length);
-                    for(int x = 0; x < client.ReceiveBufferSize; data++, x++ )
+                    for(int x = 0; x < buffer.Length; data++, x++ )
                     {
-                        fdata[data] = buffer[x];
+                        try
+                        {
+                            fdata[data] = buffer[x];
+                        }
+                        catch(IndexOutOfRangeException)
+                        {
+                            Console.WriteLine("Problem at {0}, {1}. Error 1. Buffer.length = {2}, fdata.Length = {3}", data, x, buffer.Length, fdata.Length);
+                            break;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                            break;
+                        }
                     }
                 }
                 else
                 {
-                    buffer = new byte[fsize - (client.ReceiveBufferSize * i)];
+                    buffer = new byte[fsize - data];
                     nstream.Read(buffer, 0, buffer.Length);
-                    for(int x = 0; x < fsize - (client.ReceiveBufferSize * i); data++, x++ )
+                    for(int x = 0; x < buffer.Length; data++, x++ )
                     {
-                        fdata[data] = buffer[x];
+                        try
+                        {
+                            fdata[data] = buffer[x];
+                        }
+                        catch(IndexOutOfRangeException)
+                        {
+                            Console.WriteLine("Problem at {0}, {1}. Error 2. Buffer.length = {2}, fdata.Length = {3}", data, x, buffer.Length, fdata.Length);
+                            break;
+                        }
+                        catch(Exception e)
+                        {
+                            Console.WriteLine(e);
+                            break;
+                        }
                     }
                 }
+                Console.WriteLine("{0}%, {1}/{2}", Math.Round(100 * (double)(data / fdata.Length)), data, fdata.Length);
+                packets++;
             }
             File.WriteAllBytes(@faddress, fdata);
             fdata = null;
             nstream.Close();
             client.Close();
-        }
-        static void dlproc()
-        {
-            while(data < fdata.Length)
-            {
-                double percent = (data / fdata.Length) * 100;
-                Console.WriteLine(Math.Round(percent).ToString(), "    ", data, " / ", fdata.Length);
-                Thread.Sleep(100);
-            }
         }
     }
 }
