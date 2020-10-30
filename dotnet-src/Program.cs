@@ -182,6 +182,7 @@ namespace Pigeon
             int packets = 0;
             while(fsize > data)
             {
+            	Thread.Sleep(10);
                 Console.WriteLine("Downloading...");
                 if(((fsize / client.ReceiveBufferSize) - packets) > 1)
                 {
