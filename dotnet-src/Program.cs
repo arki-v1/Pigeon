@@ -180,6 +180,7 @@ namespace Pigeon
             Console.WriteLine("Starting download");
             while(fsize > data)
             {
+            	Thread.Sleep(10);
                 Console.WriteLine("Downloading...");
                 if(fsize - data >= client.ReceiveBufferSize)
                 {

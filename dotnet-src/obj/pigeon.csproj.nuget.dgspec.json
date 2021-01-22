@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/arrankirk/Github Repos/Pigeon/dotnet-src/pigeon.csproj": {}
+    "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj": {}
   },
   "projects": {
-    "/Users/arrankirk/Github Repos/Pigeon/dotnet-src/pigeon.csproj": {
+    "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/arrankirk/Github Repos/Pigeon/dotnet-src/pigeon.csproj",
+        "projectUniqueName": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj",
         "projectName": "pigeon",
-        "projectPath": "/Users/arrankirk/Github Repos/Pigeon/dotnet-src/pigeon.csproj",
-        "packagesPath": "/Users/arrankirk/.nuget/packages/",
-        "outputPath": "/Users/arrankirk/Github Repos/Pigeon/dotnet-src/obj/",
+        "projectPath": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/pigeon.csproj",
+        "packagesPath": "/home/arrank/.nuget/packages/",
+        "outputPath": "/media/arrank/HDD/Code/Git Repos/Pigeon/dotnet-src/obj/",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "/Users/arrankirk/.nuget/NuGet/NuGet.Config"
+          "/home/arrank/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
@@ -27,6 +24,7 @@
         },
         "frameworks": {
           "net5.0": {
+            "targetAlias": "net5.0",
             "projectReferences": {}
           }
         },
@@ -38,6 +36,7 @@
       },
       "frameworks": {
         "net5.0": {
+          "targetAlias": "net5.0",
           "imports": [
             "net461",
             "net462",
@@ -53,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/5.0.100-preview.7.20366.6/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.100-rc.1.20452.10/RuntimeIdentifierGraph.json"
         }
       }
     }
