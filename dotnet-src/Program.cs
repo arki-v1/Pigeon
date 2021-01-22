@@ -106,11 +106,10 @@ namespace Pigeon
             buffer = null;
             long data = 0;
             Console.WriteLine("Starting upload");
-            int packets = 0;
             while(fsize > data)
             {
                 Console.WriteLine("Uploading...");
-                if(((fsize / client.ReceiveBufferSize) - packets) > 1)
+                if(fsize - data >= client.SendBufferSize)
                 {
                     buffer = new byte[client.SendBufferSize];
                     for(int x = 0; x < buffer.Length; data++, x++ )
@@ -155,8 +154,8 @@ namespace Pigeon
                     }
                     nstream.Write(buffer, 0, buffer.Length);
                 }
-                Console.WriteLine("{0}%, {1}/{2}", Math.Round(100 * (double)(data / fdata.Length)), data, fdata.Length);
-                packets++;
+                double percent = (data / fsize) * 100;
+                Console.WriteLine("{0}%, {1}/{2}", Math.Round(percent), data, fdata.Length);
             }
             fdata = null;
             nstream.Close();
@@ -179,15 +178,14 @@ namespace Pigeon
             buffer = null;
             long data = 0;
             Console.WriteLine("Starting download");
-            int packets = 0;
             while(fsize > data)
             {
                 Console.WriteLine("Downloading...");
-                if(((fsize / client.ReceiveBufferSize) - packets) > 1)
+                if(fsize - data >= client.ReceiveBufferSize)
                 {
                     buffer = new byte[client.ReceiveBufferSize];
                     nstream.Read(buffer, 0, buffer.Length);
-                    for(int x = 0; x < buffer.Length; data++, x++ )
+                    for(int x = 0; x < buffer.Length; data++, x++)
                     {
                         try
                         {
@@ -209,7 +207,7 @@ namespace Pigeon
                 {
                     buffer = new byte[fsize - data];
                     nstream.Read(buffer, 0, buffer.Length);
-                    for(int x = 0; x < buffer.Length; data++, x++ )
+                    for(int x = 0; x < buffer.Length; data++, x++)
                     {
                         try
                         {
@@ -227,8 +225,8 @@ namespace Pigeon
                         }
                     }
                 }
-                Console.WriteLine("{0}%, {1}/{2}", Math.Round(100 * (double)(data / fdata.Length)), data, fdata.Length);
-                packets++;
+                double percent = (data / fsize) * 100;
+                Console.WriteLine("{0}%, {1}/{2}", Math.Round(percent), data, fdata.Length);
             }
             File.WriteAllBytes(@faddress, fdata);
             fdata = null;
